@@ -10,8 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Test Slack Webhook
-      uses: slack-notification-action@v1
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      with:
-        text: "⚙️ CI/CD Pipeline - Slack Integration Test\n✅ Slack webhook test successful\n✅ Configuration complete\n\nDetails:\n- Workflow: ${GITHUB_WORKFLOW}\n- Branch: ${GITHUB_REF}\n- Commit: ${GITHUB_SHA::7}"
+      run: |
+        curl -X POST -H 'Content-type: application/json' \
+        --data '{"text": "⚙️ CI/CD Pipeline - Slack Integration Test\n✅ Slack webhook test successful\n✅ Configuration complete\n\nDetails:\n- Workflow: ${GITHUB_WORKFLOW}\n- Branch: ${GITHUB_REF}\n- Commit: ${GITHUB_SHA::7}"}' \
+        ${{ secrets.SLACK_WEBHOOK_URL }}
